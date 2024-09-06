@@ -8,8 +8,12 @@
 import SwiftUI
 
 struct CategoryView: View {
-  @State private var viewModel: MealCategoryViewModel = .init(categoryName: "Dessert")
+  @State private var viewModel: MealCategoryViewModel
   @Environment(Router.self) private var router
+  
+  @MainActor init() {
+    self._viewModel = State(wrappedValue: .init(categoryName: "Dessert"))
+  }
   
   var body: some View {
     NavigationStack {

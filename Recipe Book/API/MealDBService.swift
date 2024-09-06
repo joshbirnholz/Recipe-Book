@@ -51,7 +51,7 @@ public protocol MealDBServiceProtocol {
 
 // MARK: Service
 
-public final class MealDBService: MealDBServiceProtocol {
+public actor MealDBService: MealDBServiceProtocol {
   
   enum MealServiceError: Error {
     case invalidURL

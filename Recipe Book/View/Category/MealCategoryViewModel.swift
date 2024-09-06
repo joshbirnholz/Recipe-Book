@@ -9,6 +9,7 @@ import Foundation
 import SwiftUI
 
 @Observable
+@MainActor
 class MealCategoryViewModel {
   
   private let service: MealDBServiceProtocol

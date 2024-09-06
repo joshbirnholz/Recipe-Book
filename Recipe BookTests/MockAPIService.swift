@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-public final class MockMealDBService: MealDBServiceProtocol {
+public actor MockMealDBService: MealDBServiceProtocol {
   
   public init() {
     
@@ -38,7 +38,7 @@ public final class MockMealDBService: MealDBServiceProtocol {
   
 }
 
-public final class FailingMealDBService: MealDBServiceProtocol {
+public actor FailingMealDBService: MealDBServiceProtocol {
   
   enum ServiceError: Error {
     case failedToLoad
@@ -62,7 +62,7 @@ public final class FailingMealDBService: MealDBServiceProtocol {
   
 }
 
-public final class EmptyMealDBService: MealDBServiceProtocol {
+public actor EmptyMealDBService: MealDBServiceProtocol {
   
   public init() {
     
