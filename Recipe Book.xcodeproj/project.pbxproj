@@ -76,6 +76,8 @@
 		548BAF9E2C87BCA900EAF8B8 /* MealDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealDetailView.swift; sourceTree = "<group>"; };
 		548BAFA12C87BFEA00EAF8B8 /* MealDBService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealDBService.swift; sourceTree = "<group>"; };
 		548BAFA62C87C2EA00EAF8B8 /* MealContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealContainer.swift; sourceTree = "<group>"; };
+		54F948FC2C8BBB4D00C9ECAB /* screenshot-1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "screenshot-1.png"; sourceTree = "<group>"; };
+		54F948FD2C8BBB9300C9ECAB /* screenshot-2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "screenshot-2.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -142,6 +144,8 @@
 			isa = PBXGroup;
 			children = (
 				541809112C8BB75C008114F7 /* README.md */,
+				54F948FC2C8BBB4D00C9ECAB /* screenshot-1.png */,
+				54F948FD2C8BBB9300C9ECAB /* screenshot-2.png */,
 				548BAF6C2C87ADB200EAF8B8 /* Recipe Book */,
 				548BAF7D2C87ADB300EAF8B8 /* Recipe BookTests */,
 				548BAF872C87ADB300EAF8B8 /* Recipe BookUITests */,
