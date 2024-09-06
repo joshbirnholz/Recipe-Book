@@ -58,6 +58,7 @@
 		541809092C8BA541008114F7 /* MockAPIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockAPIService.swift; sourceTree = "<group>"; };
 		5418090D2C8BA949008114F7 /* meals.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = meals.json; sourceTree = "<group>"; };
 		5418090F2C8BAA84008114F7 /* 52893.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = 52893.json; sourceTree = "<group>"; };
+		541809112C8BB75C008114F7 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		54731B8B2C87C60D002F9C70 /* MealCategoryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealCategoryViewModel.swift; sourceTree = "<group>"; };
 		547E3D502C87DAB5002695EB /* MealDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealDetailViewModel.swift; sourceTree = "<group>"; };
 		548BAF6A2C87ADB200EAF8B8 /* Recipe Book.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Recipe Book.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -140,6 +141,7 @@
 		548BAF612C87ADB200EAF8B8 = {
 			isa = PBXGroup;
 			children = (
+				541809112C8BB75C008114F7 /* README.md */,
 				548BAF6C2C87ADB200EAF8B8 /* Recipe Book */,
 				548BAF7D2C87ADB300EAF8B8 /* Recipe BookTests */,
 				548BAF872C87ADB300EAF8B8 /* Recipe BookUITests */,
