@@ -58,6 +58,7 @@ class MealCategoryViewModel {
   /// Asynchronously loads the meals and sets either the `meals` property, or the `error` if one was encountered.
   func fetchMeals() async {
     self.isLoading = true
+    self.error = nil
     
     do {
       defer {

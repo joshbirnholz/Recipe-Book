@@ -29,12 +29,21 @@ struct CategoryView: View {
           )
         case .loading:
           ProgressView()
-        case .error(let string):
-          ContentUnavailableView(
-            "No Recipes Available",
-            systemImage: "fork.knife",
-            description: Text(string)
-          )
+        case .error(let error):
+          ContentUnavailableView {
+            Text("Something went wrong")
+              .bold()
+          } description: {
+            Text(error)
+          } actions: {
+            Button {
+              Task {
+                await viewModel.fetchMeals()
+              }
+            } label: {
+              Label("Retry", systemImage: "arrow.counterclockwise")
+            }
+          }
         }
       }.navigationTitle("Recipe Book")
         .task {
