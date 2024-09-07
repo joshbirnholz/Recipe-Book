@@ -33,7 +33,7 @@ public actor MockMealDBService: MealDBServiceProtocol {
   }
   
   public func getMeal(id: String) async throws -> Meal? {
-    let data = try loadFile(named: "52893", extension: "json")
+    let data = try loadFile(named: id, extension: "json")
     
     let decoder = JSONDecoder()
     let response = try decoder.decode(MealDBResult<Meal>.self, from: data)

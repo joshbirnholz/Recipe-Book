@@ -95,6 +95,20 @@ final class Recipe_BookTests: XCTestCase {
     }
   }
   
+  func testDecodingMalformedMeal() async throws {
+    let viewModel = await MealDetailViewModel(
+      mealInfo: .init(name: "", thumbnailURL: nil, id: "52893-malformed"),
+      service: MockMealDBService()
+    )
+    
+    await viewModel.fetchMeal()
+    let error = await viewModel.error
+    
+    let unwrappedError = try XCTUnwrap(error)
+    
+    XCTAssertTrue(unwrappedError is DecodingError, "Expected decoding error for malformed JSON, but got: \(unwrappedError)")
+  }
+  
   @MainActor
   func testMealsDecodeSuccessfully() async throws {
     await viewModel.fetchMeals()
