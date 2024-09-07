@@ -8,6 +8,8 @@
 import Foundation
 import UIKit
 
+// MARK: Mock service
+
 public actor MockMealDBService: MealDBServiceProtocol {
   
   public init() {
@@ -40,6 +42,8 @@ public actor MockMealDBService: MealDBServiceProtocol {
   
 }
 
+// MARK: Failing service
+
 public actor FailingMealDBService: MealDBServiceProtocol {
   
   public init() {
@@ -55,6 +59,8 @@ public actor FailingMealDBService: MealDBServiceProtocol {
   }
   
 }
+
+// MARK: Empty service
 
 public actor EmptyMealDBService: MealDBServiceProtocol {
   

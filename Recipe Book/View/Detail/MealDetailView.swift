@@ -7,6 +7,8 @@
 
 import SwiftUI
 
+// MARK: Main detail view
+
 struct MealDetailView: View {
   @State var viewModel: MealDetailViewModel
   
@@ -59,6 +61,8 @@ struct MealDetailView: View {
   }
 }
 
+// MARK: Meal View
+
 struct MealView: View {
   let meal: Meal
   let formattedInstructions: String
@@ -99,6 +103,8 @@ struct MealView: View {
   }
 }
 
+// MARK: Header
+
 struct MealViewHeader: View {
   let imageURL: URL?
   let title: String
@@ -117,6 +123,8 @@ struct MealViewHeader: View {
     }
   }
 }
+
+// MARK: Ingredients List
 
 struct IngredientsList: View {
   let ingredients: [Meal.Ingredient]

@@ -7,6 +7,8 @@
 
 import SwiftUI
 
+// MARK: Main category view
+
 struct CategoryView: View {
   @State private var viewModel: MealCategoryViewModel
   @Environment(Router.self) private var router
@@ -54,6 +56,8 @@ struct CategoryView: View {
     }
   }
 }
+
+// MARK: Meal Grid
 
 struct MealGrid: View {
   let title: String
