@@ -32,6 +32,7 @@ class MealDetailViewModel {
     case error(String)
   }
   
+  /// The state of the view, computed based on the loading and error states and the fetched data.
   var state: State {
     if let error {
       return .error(error.localizedDescription)

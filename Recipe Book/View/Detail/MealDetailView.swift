@@ -15,7 +15,7 @@ struct MealDetailView: View {
       switch viewModel.state {
       case .meal(let meal):
         MealView(
-          meal: meal, mealInfo: viewModel.mealInfo,
+          meal: meal,
           formattedInstructions: viewModel.formattedInstructions ?? meal.instructions,
           flag: viewModel.flagEmoji
         ).toolbar {
@@ -52,14 +52,13 @@ struct MealDetailView: View {
 
 struct MealView: View {
   let meal: Meal
-  let mealInfo: MealInfo
   let formattedInstructions: String
   let flag: String?
   
   var body: some View {
     ScrollView {
       VStack(alignment: .leading) {
-        MealViewHeader(imageURL: mealInfo.thumbnailURL, title: mealInfo.name)
+        MealViewHeader(imageURL: meal.thumbnailURL, title: meal.name)
         
         VStack(alignment: .leading, spacing: 20) {
           HStack {

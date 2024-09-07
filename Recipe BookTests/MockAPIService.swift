@@ -16,7 +16,9 @@ public actor MockMealDBService: MealDBServiceProtocol {
   
   private func loadFile(named name: String, extension fileExtension: String? = nil) throws -> Data {
     let bundle = Bundle(for: MockMealDBService.self)
-    let url = bundle.url(forResource: name, withExtension: fileExtension)!
+    guard let url = bundle.url(forResource: name, withExtension: fileExtension) else {
+      throw NSError(domain: "MockMealDBService", code: 404, userInfo: [NSLocalizedDescriptionKey: "File not found"])
+    }
     return try Data(contentsOf: url)
   }
   
@@ -40,24 +42,16 @@ public actor MockMealDBService: MealDBServiceProtocol {
 
 public actor FailingMealDBService: MealDBServiceProtocol {
   
-  enum ServiceError: Error {
-    case failedToLoad
-    
-    var localizedDescription: String {
-      "Failed to load"
-    }
-  }
-  
   public init() {
     
   }
   
   public func getCategory(name: String) async throws -> [MealInfo] {
-    throw ServiceError.failedToLoad
+    throw NSError(domain: "MockMealDBService", code: 404, userInfo: [NSLocalizedDescriptionKey: "File not found"])
   }
   
   public func getMeal(id: String) async throws -> Meal? {
-    throw ServiceError.failedToLoad
+    throw NSError(domain: "MockMealDBService", code: 404, userInfo: [NSLocalizedDescriptionKey: "File not found"])
   }
   
 }

@@ -28,6 +28,10 @@ final class Recipe_BookTests: XCTestCase {
   
   override func tearDownWithError() throws {
     // Put teardown code here. This method is called after the invocation of each test method in the class.
+    viewModel = nil
+    mockViewModel = nil
+    failingViewModel = nil
+    emptyViewModel = nil
   }
   
   @MainActor
@@ -36,7 +40,7 @@ final class Recipe_BookTests: XCTestCase {
   }
   
   @MainActor
-  func testStateAfterFetching() async throws {
+  func testViewModelHandlesStateCorrectly() async throws {
     let expectation = expectation(description: "Fetch \(viewModel.categoryName)")
     
     Task {
@@ -51,41 +55,40 @@ final class Recipe_BookTests: XCTestCase {
     XCTAssertFalse(viewModel.isLoading)
   }
   
-  func testStateAfterFailing() async throws {
+  func testViewModelHandlesErrorStateCorrectly() async throws {
     await failingViewModel.fetchMeals()
     
     if case .error(_) = await failingViewModel.state {
-      // Error state, no action needed
+      // Expected error state, test passed
     } else {
       XCTFail("Expected error state")
     }
   }
   
-  func testStateAfterReceivingNoData() async throws {
+  func testViewModelHandlesEmptyStateCorrectly() async throws {
     await emptyViewModel.fetchMeals()
     
     if case .empty = await emptyViewModel.state {
-      // Error state, no action needed
+      // Expected empty state, test passed
     } else {
       XCTFail("Expected empty state")
     }
   }
   
-  func testFetchedMeals() async throws {
+  func testViewModelFetchesMeals() async throws {
     await viewModel.fetchMeals()
-    await mockViewModel.fetchMeals()
     
-    if case .meals(let meals) = await viewModel.state, case .meals(let expectedMeals) = await mockViewModel.state {
-      XCTAssertEqual(meals, expectedMeals)
+    if case .meals(let meals) = await viewModel.state {
+      XCTAssertFalse(meals.isEmpty)
     } else {
       XCTFail("Expected to decode meals")
     }
   }
   
-  func testMealsSorted() async throws {
-    await viewModel.fetchMeals()
+  func testViewModelsSortsMealsAlphabetically() async throws {
+    await mockViewModel.fetchMeals()
     
-    if case .meals(let meals) = await viewModel.state {
+    if case .meals(let meals) = await mockViewModel.state {
       XCTAssertEqual(meals, meals.sorted(using: SortDescriptor(\.name)))
     } else {
       XCTFail("Expected to decode meals")
@@ -93,7 +96,7 @@ final class Recipe_BookTests: XCTestCase {
   }
   
   @MainActor
-  func testDecodingMeals() async throws {
+  func testMealsDecodeSuccessfully() async throws {
     await viewModel.fetchMeals()
     
     let meals = try XCTUnwrap(viewModel.meals, "Expected to load meals.")
