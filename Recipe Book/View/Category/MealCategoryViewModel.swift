@@ -42,9 +42,11 @@ class MealCategoryViewModel {
     } else if let meals, !meals.isEmpty {
       let query = query.trimmingCharacters(in: .whitespaces).lowercased()
       if query.count >= 2 {
+        // Filter the displayed meals based on the user's query in the search bar
         let filteredMeals = meals.filter { $0.name.lowercased().contains(query) }
         return .meals(filteredMeals)
       } else {
+        // The user isn't searching for anything, display all the meals
         return .meals(meals)
       }
     } else {
@@ -61,6 +63,7 @@ class MealCategoryViewModel {
         self.isLoading = false
       }
       
+      // Sort the meals alphabetically when they are fetched
       self.meals = try await service.getCategory(name: categoryName).sorted(using: SortDescriptor(\.name))
     } catch {
       self.error = error
