@@ -44,7 +44,7 @@ public final class API {
 
 // MARK: Protocol
 
-public protocol MealDBServiceProtocol {
+public protocol MealDBServiceProtocol: Sendable {
   func getCategory(name: String) async throws -> [MealInfo]
   func getMeal(id: String) async throws -> Meal?
 }

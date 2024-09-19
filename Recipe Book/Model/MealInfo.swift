@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct MealInfo: Codable, Identifiable, Equatable, Hashable {
+public struct MealInfo: Codable, Identifiable, Equatable, Hashable, Sendable {
   public let name: String
   public let thumbnailURL: URL?
   public let id: String

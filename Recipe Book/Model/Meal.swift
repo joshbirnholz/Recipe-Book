@@ -7,8 +7,8 @@
 
 import Foundation
 
-public struct Meal: Identifiable, Decodable, Equatable {
-  public struct Ingredient: Identifiable, Equatable {
+public struct Meal: Identifiable, Decodable, Equatable, Sendable {
+  public struct Ingredient: Identifiable, Equatable, Sendable {
     let name: String
     let measurement: String
     
