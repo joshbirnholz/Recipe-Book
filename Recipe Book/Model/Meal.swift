@@ -41,58 +41,90 @@ public struct Meal: Identifiable, Decodable, Equatable, Sendable {
   /// A URL pointing to the source of the recipe for the meal.
   public let source: URL?
   
-  enum CodingKeys: String, CodingKey, CaseIterable {
-    case name = "strMeal"
-    case thumbnailURL = "strMealThumb"
-    case id = "idMeal"
-    case category = "strCategory"
-    case area = "strArea"
-    case instructions = "strInstructions"
-    case tags = "strTags"
-    case youTubeURL = "strYoutube"
-    case ingredient1 = "strIngredient1"
-    case ingredient2 = "strIngredient2"
-    case ingredient3 = "strIngredient3"
-    case ingredient4 = "strIngredient4"
-    case ingredient5 = "strIngredient5"
-    case ingredient6 = "strIngredient6"
-    case ingredient7 = "strIngredient7"
-    case ingredient8 = "strIngredient8"
-    case ingredient9 = "strIngredient9"
-    case ingredient10 = "strIngredient10"
-    case ingredient11 = "strIngredient11"
-    case ingredient12 = "strIngredient12"
-    case ingredient13 = "strIngredient13"
-    case ingredient14 = "strIngredient14"
-    case ingredient15 = "strIngredient15"
-    case ingredient16 = "strIngredient16"
-    case ingredient17 = "strIngredient17"
-    case ingredient18 = "strIngredient18"
-    case ingredient19 = "strIngredient19"
-    case ingredient20 = "strIngredient20"
+  enum CodingKeys: RawRepresentable, CodingKey {
+    case name
+    case thumbnailURL
+    case id
+    case category
+    case area
+    case instructions
+    case tags
+    case youTubeURL
+    case source
+    case ingredient(Int)
+    case measurement(Int)
     
-    case measurement1 = "strMeasure1"
-    case measurement2 = "strMeasure2"
-    case measurement3 = "strMeasure3"
-    case measurement4 = "strMeasure4"
-    case measurement5 = "strMeasure5"
-    case measurement6 = "strMeasure6"
-    case measurement7 = "strMeasure7"
-    case measurement8 = "strMeasure8"
-    case measurement9 = "strMeasure9"
-    case measurement10 = "strMeasure10"
-    case measurement11 = "strMeasure11"
-    case measurement12 = "strMeasure12"
-    case measurement13 = "strMeasure13"
-    case measurement14 = "strMeasure14"
-    case measurement15 = "strMeasure15"
-    case measurement16 = "strMeasure16"
-    case measurement17 = "strMeasure17"
-    case measurement18 = "strMeasure18"
-    case measurement19 = "strMeasure19"
-    case measurement20 = "strMeasure20"
-    case source = "strSource"
+    var rawValue: String {
+      switch self {
+      case .name: return "strMeal"
+      case .thumbnailURL: return "strMealThumb"
+      case .id: return "idMeal"
+      case .category: return "strCategory"
+      case .area: return "strArea"
+      case .instructions: return "strInstructions"
+      case .tags: return "strTags"
+      case .youTubeURL: return "strYoutube"
+      case .source: return "strSource"
+      case .ingredient(let num): return "strIngredient\(num)"
+      case .measurement(let num): return "strMeasure\(num)"
+      }
+    }
+    
+    init?(rawValue: String) {
+      switch rawValue {
+      case "strMeal": self = .name
+      case "strMealThumb": self = .thumbnailURL
+      case "idMeal": self = .id
+      case "strCategory": self = .category
+      case "strArea": self = .area
+      case "strInstructions": self = .instructions
+      case "strTags": self = .tags
+      case "strYoutube": self = .youTubeURL
+      case "strSource": self = .source
+      case _ where rawValue.hasPrefix("strIngredient"):
+        if let num = Int(rawValue.replacingOccurrences(of: "strIngredient", with: "")) {
+          self = .ingredient(num)
+        } else {
+          return nil
+        }
+      case _ where rawValue.hasPrefix("strMeasure"):
+        if let num = Int(rawValue.replacingOccurrences(of: "strMeasure", with: "")) {
+          self = .measurement(num)
+        } else {
+          return nil
+        }
+      default:
+        return nil
+      }
+    }
+    
+    var stringValue: String {
+      return rawValue
+    }
+    
+    var intValue: Int? {
+      return nil
+    }
+    
+    init?(stringValue: String) {
+      self.init(rawValue: stringValue)
+    }
+    
+    init?(intValue: Int) {
+      return nil
+    }
+    
+    var num: Int? {
+      if case .ingredient(let num) = self {
+        return num
+      } else if case .measurement(let num) = self {
+        return num
+      } else {
+        return nil
+      }
+    }
   }
+
   
   public init(from decoder: any Decoder) throws {
     let container = try decoder.container(keyedBy: CodingKeys.self)
@@ -108,30 +140,21 @@ public struct Meal: Identifiable, Decodable, Equatable, Sendable {
     self.youTubeURL = URL(string: youTubeString)
     
     // The API represents ingredients and measurements using 20 strings each, rather than an array of objects.
-    // The below code decodes these values, matches them up, and then uses them to create an array of
-    // `Ingredient` instances, in order to more easily consume these in the View. It also discards null
-    // and empty values.
+    // The below code decodes the values for the ingredient keys, pairs them up with the matching measurement
+    // values, and then uses them to create an array of `Ingredient` instances, in order to more easily consume
+    // these in the View. It also discards empty string values.
     
-    let ingredients = try CodingKeys.allCases.filter { $0.rawValue.hasPrefix("strIngredient") }
-      .compactMap { key in
-        if let value = try container.decode(String?.self, forKey: key), !value.isEmpty {
-          return value
-        } else {
-          return nil
-        }
+    self.ingredients = container.allKeys.sorted(using: KeyPathComparator(\.num)).compactMap { key in
+      guard
+        case .ingredient(let num) = key,
+        let ingredient = try? container.decode(String.self, forKey: key),
+        let measurement = try? container.decode(String.self, forKey: .measurement(num)),
+        !ingredient.isEmpty && !measurement.isEmpty
+      else {
+        return nil
       }
-    
-    let measurements = try CodingKeys.allCases.filter { $0.rawValue.hasPrefix("strMeasure") }
-      .compactMap { key in
-        if let value = try container.decode(String?.self, forKey: key), !value.isEmpty {
-          return value
-        } else {
-          return nil
-        }
-      }
-    
-    self.ingredients = zip(ingredients, measurements).map { ingredient, measurement in
-      Ingredient(name: ingredient, measurement: measurement)
+      
+      return Ingredient(name: ingredient, measurement: measurement)
     }
     
     if let sourceURL = try container.decodeIfPresent(String.self, forKey: .source) {

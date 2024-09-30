@@ -134,6 +134,8 @@ final class Recipe_BookTests: XCTestCase {
         do {
           let meal = try result.get()
           
+          XCTAssertNotEqual(meal.ingredients, [], "Expected meal to have at least one ingredient")
+          
           for ingredient in meal.ingredients {
             // Ensure no empty strings are included in any of the ingredients.
             XCTAssertNotEqual(ingredient.name, "", "Expected ingredient name to be non-empty")
